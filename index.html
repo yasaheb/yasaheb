@@ -42,37 +42,35 @@ async function sendOrder() {
     return;
   }
 
-  // ✅ لینک Cloudflare Worker
-  const webhookUrl = 'https://eitaa-order.yassaheb.workers.dev';
-
   try {
-    const response = await fetch(webhookUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: name,
-        phone: phone,
-        food: food,
-        quantity: quantity
-      })
-    });
+    const response = await fetch(
+      'https://eitaa-order.yassaheb.workers.dev',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          phone,
+          food,
+          quantity
+        })
+      }
+    );
 
     const result = await response.json();
 
     if (result.status === 'success') {
-      alert('سفارش شما با موفقیت ارسال شد ✅');
+      alert('سفارش با موفقیت ارسال شد ✅');
       document.getElementById('name').value = '';
       document.getElementById('quantity').value = '1';
     } else {
-      alert('ارسال سفارش موفق نبود ❌');
-      console.error(result);
+      alert('خطا در ارسال سفارش ❌');
     }
   } catch (err) {
-    alert('خطا در ارسال سفارش ❌');
+    alert('خطا در ارتباط با سرور ❌');
     console.error(err);
   }
 }
 </script>
-
 </body>
 </html>
